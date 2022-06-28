@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>save</title>
+  <script th:src="@{/js/jquery.js}"></script>
+</head>
+<body>
+  <h2>save.html</h2>
+  <form action="/member/save" method="post" enctype="multipart/form-data">
+    아이디 : <input type="text" name="memberId" id="memberId" onblur="duplicateCheck()"><p id="duplicate-check-result" style="display: inline"></p><br/>
+    비밀번호 : <input type="text" name="memberPassword"><br/>
+    이름 : <input type="text" name="memberName"><br/>
+    이메일 : <input type="text" name="memberEmail"><br/>
+    전화번호 : <input type="text" name="memberMobile"><br/>
+    프로필사진 : <input type="file" name="memberProfile"><br/>
+    <button type="submit">회원가입</button>
+  </form>
+</body>
+<script th:inline="javascript">
+  const duplicateCheck = () => {
+    const memberId = document.getElementById("memberId").value;
+    const result_output = document.getElementById("duplicate-check-result");
+
+    $.ajax({
+      type: 'post',
+      url: '/member/duplicateCheck',
+      data: {'memberId': memberId},
+      dataType: 'text',
+      success: function (result) {
+        if (result === 'ok') {
+          result_output.innerHTML = '사용 가능한 아이디 입니다.';
+          result_output.style.color = '#36aa36';
+        } else {
+          result_output.innerHTML = '이미 사용중인 아이디 입니다.';
+          result_output.style.color = '#aa3636';
+        }
+      },
+      err: function () {
+        alert('에러');
+      }
+    })
+  }
+</script>
+</html>
