@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
@@ -28,7 +29,7 @@ public class MemberController {
 
     memberService.save(memberDTO);
 
-    return "index";
+    return "redirect:/";
   }
 
   @PostMapping("/duplicateCheck")
@@ -43,5 +44,25 @@ public class MemberController {
     }
   }
 
+  @GetMapping("/login-form")
+  public String loginForm () {
+    System.out.println("MemberController.loginForm");
 
+    return "memberPages/login";
+  }
+
+  @PostMapping("/login")
+  public String login (@ModelAttribute MemberDTO memberDTO,
+                       HttpSession session) {
+    System.out.println("MemberController.login");
+
+    MemberDTO loginDTO = memberService.login(memberDTO);
+    if (loginDTO != null) {
+      session.setAttribute("id", loginDTO.getId());
+      session.setAttribute("memberId", loginDTO.getMemberId());
+      return "redirect:/board/list";  // 글 목록으로 가야 함
+    } else {
+      return "memberPages/login";
+    }
+  }
 }

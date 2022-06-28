@@ -1,5 +1,6 @@
 package com.its.project.dto;
 
+import com.its.project.entity.MemberEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,18 @@ public class MemberDTO {
   private String memberMobile;
   private MultipartFile memberProfile;
   private String memberProfileName;
-  private LocalDateTime memberCreatedTime;
-  private LocalDateTime memberUpdatedTime;
 
+  public static MemberDTO toDTO (MemberEntity memberEntity) {
+    MemberDTO memberDTO = new MemberDTO();
 
+    memberDTO.setId(memberEntity.getId());
+    memberDTO.setMemberId(memberEntity.getMemberId());
+    memberDTO.setMemberPassword(memberEntity.getMemberPassword());
+    memberDTO.setMemberName(memberEntity.getMemberName());
+    memberDTO.setMemberEmail(memberEntity.getMemberEmail());
+    memberDTO.setMemberMobile(memberEntity.getMemberMobile());
+
+    return memberDTO;
+  }
 
 }

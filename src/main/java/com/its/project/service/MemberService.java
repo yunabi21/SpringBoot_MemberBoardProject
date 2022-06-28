@@ -44,4 +44,20 @@ public class MemberService {
       return optionalMemberEntity.get();
     }
   }
+
+  public MemberDTO login(MemberDTO memberDTO) {
+    System.out.println("MemberService.login");
+
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberId(memberDTO.getMemberId());
+    if (optionalMemberEntity.isPresent()) {
+      MemberEntity memberEntity = optionalMemberEntity.get();
+      if (memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())) {
+        return MemberDTO.toDTO(memberEntity);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
 }
