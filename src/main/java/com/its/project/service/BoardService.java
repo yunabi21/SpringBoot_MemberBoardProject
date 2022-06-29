@@ -56,4 +56,16 @@ public class BoardService {
       return null;
     }
   }
+
+  public BoardDTO findById(Long id) {
+    System.out.println("BoardService.findById");
+
+    Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
+    if (optionalBoardEntity.isPresent()) {
+      BoardEntity boardEntity = optionalBoardEntity.get();
+      return BoardDTO.toDTO(boardEntity);
+    } else {
+      return null;
+    }
+  }
 }
