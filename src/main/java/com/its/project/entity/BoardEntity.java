@@ -36,7 +36,7 @@ public class BoardEntity extends BaseEntity {
   @JoinColumn(name = "member_id")
   private MemberEntity memberEntity;
 
-  private static BoardEntity toSaveEntity(BoardDTO boardDTO, MemberEntity memberEntity) {
+  public static BoardEntity toSaveEntity(BoardDTO boardDTO, MemberEntity memberEntity) {
     BoardEntity boardEntity = new BoardEntity();
 
     boardEntity.setBoardWriter(memberEntity.getMemberId());

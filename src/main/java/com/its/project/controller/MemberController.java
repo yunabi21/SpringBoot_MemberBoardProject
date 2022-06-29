@@ -59,7 +59,7 @@ public class MemberController {
     MemberDTO loginDTO = memberService.login(memberDTO);
     if (loginDTO != null) {
       session.setAttribute("id", loginDTO.getId());
-      session.setAttribute("memberId", loginDTO.getMemberId());
+      session.setAttribute("loginId", loginDTO.getMemberId());
       return "redirect:/board/list";  // 글 목록으로 가야 함
     } else {
       return "memberPages/login";
