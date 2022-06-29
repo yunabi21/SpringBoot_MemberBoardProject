@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>myPage</title>
+  <script th:src="@{/js/jquery.js}"></script>
   <style>
     p {
       display: inline;
@@ -19,10 +20,46 @@
   전화번호 : <p th:text="${member.getMemberMobile()}"></p><br/>
   프로필사진 : <img th:src="@{|/upload/${member.getMemberProfileName()}|}" width="50px" height="50px" alt=""><br/>
   <button type="button" onclick="req(1)">수정</button>
-  <button type="button" onclick="req(2)">탈퇴</button>
+  <button type="button" onclick="req(2)">탈퇴</button><br/>
 
+  <div id="input-area">
+
+  </div>
 </body>
 <script th:inline="javascript">
+  const req = (num) => {
+    let output = "<input type=\"text\" name=\"memberPassword\" id=\"memberPassword\" placeholder=\"비밀번호 입력\">\n";
+        output += '<button type="button" onclick="passwordCheck(' + num + ')">확인</button>';
 
+    document.getElementById("input-area").innerHTML = output;
+  }
+
+  const passwordCheck = (num) => {
+    const inputPassword = document.getElementById("memberPassword").value;
+    const id = [[${member.getId()}]];
+    $.ajax({
+      type: 'get',
+      url: '/member/findById',
+      data: {"id" : id},
+      dataType: 'json',
+      success: function (result) {
+
+        if (inputPassword === result.memberPassword) {
+          if (num === 1) {
+            location.href = '/member/update/' + id;
+          } else {
+            location.href = '/member/delete/' + id;
+          }
+        } else {
+          alert('비밀번호를 다시 확인해주세요.');
+          document.getElementById("memberPassword").innerHTML = '';
+          document.getElementById("memberPassword").focus();
+        }
+      },
+      err: function () {
+        alert('에러');
+      }
+    })
+  }
 </script>
 </html>

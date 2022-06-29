@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -76,5 +77,23 @@ public class MemberController {
     model.addAttribute("member", memberDTO);
 
     return "memberPages/myPage";
+  }
+
+  @GetMapping("/findById")
+  public @ResponseBody MemberDTO findById(@RequestParam("id") Long id) {
+    System.out.println("MemberController.findById");
+
+    return memberService.findById(id);
+  }
+
+  @GetMapping("/delete/{id}")
+  public String delete(@PathVariable("id") Long id, HttpSession session) {
+    System.out.println("MemberController.delete");
+
+    if (!Objects.equals(memberService.findById(id).getMemberId(), "admin")) {
+      memberService.delete(id);
+      session.invalidate();
+    }
+    return "index";
   }
 }

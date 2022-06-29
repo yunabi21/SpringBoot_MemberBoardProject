@@ -72,4 +72,10 @@ public class MemberService {
       return null;
     }
   }
+
+  public void delete(Long id) {
+    System.out.println("MemberService.delete");
+
+    memberRepository.deleteById(id);
+  }
 }
