@@ -38,6 +38,10 @@ public class MemberEntity {
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
   private List<BoardEntity> boardEntityList = new ArrayList<>();
 
+  // 회원(1) - 댓글(N)
+  @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+  private List<CommentEntity> commentEntityList = new ArrayList<>();
+
   @PreRemove
   private void preRemove() {
     boardEntityList.forEach(board -> board.setMemberEntity(null));

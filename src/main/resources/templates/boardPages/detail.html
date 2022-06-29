@@ -24,6 +24,35 @@
   <span class="input-area">
 
   </span>
+
+  <br/>
+  <br/>
+  <form action="/comment/save" method="post">
+    <input type="hidden" name="boardId" th:value="${board.id}">
+    작성자 : <input type="text" name="commentWriter" th:value="${session.loginId}" readonly><br/>
+    댓글내용 : <input type="text" name="commentContents"><br/>
+    <button type="submit">작성하기</button><br/>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <td>id</td>
+        <td>commentWriter</td>
+        <td>commentContents</td>
+        <td>commentCreatedTime</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="comment : ${commentList}">
+        <td th:text="${comment.id}"></td>
+        <td th:text="${comment.commentWriter}"></td>
+        <td th:text="${comment.commentContents}"></td>
+        <td th:text="*{#temporals.format(comment.getCommentCreatedTime(), 'yyyy-MM-dd HH:mm')}"></td>
+        <td><button type="button" th:onclick="deleteCommentBTN([[${comment.id}]])">삭제</button></td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 <script th:inline="javascript">
   const req = (num) => {
@@ -34,6 +63,10 @@
     } else {
       location.href = '/board/delete/' + boardId;
     }
+  }
+
+  const deleteCommentBTN = (id) => {
+    location.href = '/comment/delete/' + id;
   }
 </script>
 </html>

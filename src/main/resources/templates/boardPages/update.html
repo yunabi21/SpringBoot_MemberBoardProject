@@ -12,7 +12,9 @@
     제목 : <input type="text" name="boardTitle" th:value="${board.getBoardTitle()}"><br/>
     내용 : <input type="text" name="boardContents" th:value="${board.getBoardContents()}"><br/>
     작성자 : <input type="text" name="boardWriter" th:value="${board.getBoardWriter()}" readonly><br/>
-    파일 : <input type="file" name="boardFile" th:value="/upload/${board.getBoardFileName}"><br/>
+    <input type="hidden" name="createdTime" th:value="${board.boardCreatedDate}" readonly>
+    <input type="hidden" name="boardHits" th:value="${board.boardHits}" readonly>
+    파일 : <input type="file" name="boardFile" th:value="${board.getBoardFileName()}"><br/>
     <button type="submit">수정하기</button>
   </form>
 </body>

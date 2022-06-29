@@ -2,7 +2,9 @@ package com.its.project.controller;
 
 import com.its.project.common.PagingConst;
 import com.its.project.dto.BoardDTO;
+import com.its.project.dto.CommentDTO;
 import com.its.project.service.BoardService;
+import com.its.project.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 public class BoardController {
-  public final BoardService boardService;
+  private final BoardService boardService;
+  private final CommentService commentService;
 
   @GetMapping
   public String list(@PageableDefault(page = 1) Pageable pageable, Model model) {
@@ -58,6 +61,9 @@ public class BoardController {
 
     BoardDTO boardDTO = boardService.findById(id);
     model.addAttribute("board", boardDTO);
+
+    List<CommentDTO> commentDTOList = commentService.findAll();
+    model.addAttribute("commentList", commentDTOList);
 
     return "boardPages/detail";
   }

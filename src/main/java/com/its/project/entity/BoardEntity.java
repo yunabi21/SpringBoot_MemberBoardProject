@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -35,6 +38,10 @@ public class BoardEntity extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private MemberEntity memberEntity;
+
+  // 게시글(1) - 댓글(N)
+  @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private List<CommentEntity> commentEntityList = new ArrayList<>();
 
   public static BoardEntity toSaveEntity(BoardDTO boardDTO, MemberEntity memberEntity) {
     BoardEntity boardEntity = new BoardEntity();
