@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>list</title>
+</head>
+<body>
+  <h2>list.html</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <td>id</td>
+        <td>memberId</td>
+        <td>memberName</td>
+        <td>memberEmail</td>
+        <td>memberMobile</td>
+        <td>memberProfile</td>
+        <td>삭제</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="member : ${memberList}">
+        <td th:text="${member.id}"></td>
+        <td th:text="${member.memberId}"></td>
+        <td th:text="${member.memberName}"></td>
+        <td th:text="${member.memberEmail}"></td>
+        <td th:text="${member.memberMobile}"></td>
+        <td><img th:src="@{|/upload/${member.memberProfileName}|}" width="50px" height="50px" alt=""></td>
+        <td><button type="button" th:onclick="memberDeleteBTN([[${member.id}]])">삭제</button></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+<script th:inline="javascript">
+  const memberDeleteBTN = (id) => {
+    location.href = '/member/delete/' + id;
+  }
+</script>
+</html>

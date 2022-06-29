@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -94,6 +95,7 @@ public class MemberController {
       memberService.delete(id);
       session.invalidate();
     }
+
     return "index";
   }
 
@@ -123,5 +125,15 @@ public class MemberController {
     session.invalidate();
 
     return "index";
+  }
+
+  @GetMapping("/list")
+  public String list(Model model) {
+    System.out.println("MemberController.list");
+
+    List<MemberDTO> memberDTOList = memberService.findAll();
+    model.addAttribute("memberList", memberDTOList);
+
+    return "memberPages/list";
   }
 }
