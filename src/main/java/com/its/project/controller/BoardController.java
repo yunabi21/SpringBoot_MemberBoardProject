@@ -40,7 +40,7 @@ public class BoardController {
   public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
     System.out.println("BoardController.save");
 
-    Long id = boardService.save(boardDTO);
+    boardService.save(boardDTO);
 
     return "redirect:/board/list";
   }

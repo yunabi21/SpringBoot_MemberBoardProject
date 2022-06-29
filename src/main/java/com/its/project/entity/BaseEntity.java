@@ -17,7 +17,4 @@ public class BaseEntity {
   @CreationTimestamp
   @Column
   private LocalDateTime createdTime;
-
-  @UpdateTimestamp
-  private LocalDateTime updatedTime;
 }
