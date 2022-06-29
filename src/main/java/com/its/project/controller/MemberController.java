@@ -96,4 +96,23 @@ public class MemberController {
     }
     return "index";
   }
+
+  @GetMapping("/update/{id}")
+  public String updateForm(@PathVariable("id") Long id, Model model) {
+    System.out.println("MemberController.updateForm");
+
+    MemberDTO memberDTO = memberService.findById(id);
+    model.addAttribute("member", memberDTO);
+
+    return "memberPages/update";
+  }
+
+  @PostMapping("/update/{id}")
+  public String update(@PathVariable("id") Long id, @ModelAttribute MemberDTO memberDTO) throws IOException {
+    System.out.println("MemberController.update");
+
+    memberService.update(memberDTO);
+
+    return "redirect:/member/" + id;
+  }
 }
