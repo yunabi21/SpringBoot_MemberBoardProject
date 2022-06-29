@@ -51,4 +51,23 @@ public class BoardController {
 
     return "boardPages/detail";
   }
+
+  @GetMapping("/update/{id}")
+  public String updateForm(@PathVariable("id") Long id, Model model) {
+    System.out.println("BoardController.updateForm");
+
+    BoardDTO boardDTO = boardService.findById(id);
+    model.addAttribute("board", boardDTO);
+
+    return "boardPages/update";
+  }
+
+  @PostMapping("/update/{id}")
+  public String update(@PathVariable("id") Long id, @ModelAttribute BoardDTO boardDTO) throws IOException {
+    System.out.println("BoardController.update");
+
+    boardService.update(boardDTO);
+
+    return "redirect:/board/list";
+  }
 }

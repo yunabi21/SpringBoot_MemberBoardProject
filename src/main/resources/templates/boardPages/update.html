@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>update</title>
+</head>
+<body>
+  <h2>update.html</h2>
+  <form th:action="@{|/board/update/${board.getId()}|}" method="post" enctype="multipart/form-data">
+    글 번호 : <input type="text" name="id" th:value="${board.getId()}" readonly><br/>
+    제목 : <input type="text" name="boardTitle" th:value="${board.getBoardTitle()}"><br/>
+    내용 : <input type="text" name="boardContents" th:value="${board.getBoardContents()}"><br/>
+    작성자 : <input type="text" name="boardWriter" th:value="${board.getBoardWriter()}" readonly><br/>
+    파일 : <input type="file" name="boardFile" th:value="${board.getBoardFileName()}"><br/>
+    <button type="submit">수정하기</button>
+  </form>
+</body>
+</html>
