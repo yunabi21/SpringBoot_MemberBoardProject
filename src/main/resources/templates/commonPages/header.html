@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="header">
+  <meta charset="UTF-8">
+  <title>header</title>
+  <style>
+    #header {
+      background-color: palegoldenrod;
+    }
+  </style>
+  <div th:if="${session.loginId}">
+    <div th:if="${session.loginId.toString().equals('admin')}">
+      <a href="/member/list">관리자 페이지(회원 목록)</a>
+      <a href="/member/logout">로그아웃</a>
+      <a th:href="@{|/member/${session.id}|}">마이페이지</a>
+      <a href="/board/">글 목록</a>
+    </div>
+    <div th:if="${!session.loginId.toString().equals('admin')}">
+      <a href="/member/logout">로그아웃</a>
+      <a th:href="@{|/member/${session.id}|}">마이페이지</a>
+      <a href="/board/">글 목록</a>
+    </div>
+  </div>
+  <div th:unless="${session.loginId}">
+    <a href="/member/save-form">회원가입</a>
+    <a href="/member/login-form">로그인</a>
+  </div>
+
+</th:block>
+
+</html>

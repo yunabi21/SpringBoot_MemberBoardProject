@@ -5,13 +5,14 @@
   <title>update</title>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
   <h2>update.html</h2>
   <form th:action="@{|/board/update/${board.getId()}|}" method="post" enctype="multipart/form-data">
     글 번호 : <input type="text" name="id" th:value="${board.getId()}" readonly><br/>
     제목 : <input type="text" name="boardTitle" th:value="${board.getBoardTitle()}"><br/>
     내용 : <input type="text" name="boardContents" th:value="${board.getBoardContents()}"><br/>
     작성자 : <input type="text" name="boardWriter" th:value="${board.getBoardWriter()}" readonly><br/>
-    파일 : <input type="file" name="boardFile" th:value="${board.getBoardFileName()}"><br/>
+    파일 : <input type="file" name="boardFile" th:value="/upload/${board.getBoardFileName}"><br/>
     <button type="submit">수정하기</button>
   </form>
 </body>

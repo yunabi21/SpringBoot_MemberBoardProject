@@ -115,4 +115,13 @@ public class MemberController {
 
     return "redirect:/member/" + id;
   }
+
+  @GetMapping("/logout")
+  public String logout(HttpSession session) {
+    System.out.println("MemberController.logout");
+
+    session.invalidate();
+
+    return "index";
+  }
 }
