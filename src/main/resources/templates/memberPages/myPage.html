@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>myPage</title>
+  <style>
+    p {
+      display: inline;
+    }
+  </style>
+</head>
+<body>
+  <h2>myPage</h2>
+
+  회원번호 : <p th:text="${member.getId()}"></p><br/>
+  아이디 : <p th:text="${member.getMemberId()}"></p><br/>
+  이름 : <p th:text="${member.getMemberName()}"></p><br/>
+  이메일 : <p th:text="${member.getMemberEmail()}"></p><br/>
+  전화번호 : <p th:text="${member.getMemberMobile()}"></p><br/>
+  프로필사진 : <img th:src="@{|/upload/${member.getMemberProfileName()}|}" width="50px" height="50px" alt=""><br/>
+  <button type="button" onclick="req(1)">수정</button>
+  <button type="button" onclick="req(2)">탈퇴</button>
+
+</body>
+<script th:inline="javascript">
+
+</script>
+</html>

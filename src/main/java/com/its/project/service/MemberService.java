@@ -60,4 +60,16 @@ public class MemberService {
       return null;
     }
   }
+
+  public MemberDTO findById(Long id) {
+    System.out.println("MemberService.findById");
+
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+    if (optionalMemberEntity.isPresent()) {
+      MemberEntity memberEntity = optionalMemberEntity.get();
+      return MemberDTO.toDTO(memberEntity);
+    } else {
+      return null;
+    }
+  }
 }

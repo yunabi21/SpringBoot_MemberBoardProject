@@ -4,7 +4,9 @@ import com.its.project.dto.MemberDTO;
 import com.its.project.entity.MemberEntity;
 import com.its.project.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -64,5 +66,15 @@ public class MemberController {
     } else {
       return "memberPages/login";
     }
+  }
+
+  @GetMapping("/{id}")
+  public String myPage(@PathVariable("id") Long id, Model model) {
+    System.out.println("MemberController.myPage");
+
+    MemberDTO memberDTO = memberService.findById(id);
+    model.addAttribute("member", memberDTO);
+
+    return "memberPages/myPage";
   }
 }

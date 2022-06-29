@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,6 +28,7 @@ public class MemberDTO {
     memberDTO.setMemberName(memberEntity.getMemberName());
     memberDTO.setMemberEmail(memberEntity.getMemberEmail());
     memberDTO.setMemberMobile(memberEntity.getMemberMobile());
+    memberDTO.setMemberProfileName(memberEntity.getMemberProfileName());
 
     return memberDTO;
   }
