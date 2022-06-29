@@ -29,6 +29,16 @@ public class BoardDTO {
     this.boardCreatedDate = boardCreatedDate;
   }
 
+  public BoardDTO(Long id, String boardTitle, String boardContents, String boardWriter, int boardHits, LocalDateTime createdTime, String boardFileName) {
+    this.id = id;
+    this.boardWriter = boardWriter;
+    this.boardTitle = boardTitle;
+    this.boardContents = boardContents;
+    this.boardHits = boardHits;
+    this.boardCreatedDate = createdTime;
+    this.boardFileName = boardFileName;
+  }
+
   public static BoardDTO toDTO(BoardEntity boardEntity) {
     BoardDTO boardDTO = new BoardDTO();
 

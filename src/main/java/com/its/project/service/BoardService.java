@@ -1,12 +1,13 @@
 package com.its.project.service;
 
+import com.its.project.common.PagingConst;
 import com.its.project.dto.BoardDTO;
-import com.its.project.dto.MemberDTO;
 import com.its.project.entity.BoardEntity;
 import com.its.project.entity.MemberEntity;
 import com.its.project.repository.BoardRepository;
 import com.its.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -120,5 +121,24 @@ public class BoardService {
     System.out.println("BoardService.delete");
 
     boardRepository.deleteById(id);
+  }
+
+  public Page<BoardDTO> paging(Pageable pageable) {
+    System.out.println("BoardService.paging");
+
+    int page = pageable.getPageNumber();
+    page = (page == 1)? 0: (page-1);
+
+    Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
+
+    return boardEntities.map(
+            board -> new BoardDTO(board.getId(),
+                    board.getBoardTitle(),
+                    board.getBoardContents(),
+                    board.getBoardWriter(),
+                    board.getBoardHits(),
+                    board.getCreatedTime(),
+                    board.getBoardFileName()
+            ));
   }
 }

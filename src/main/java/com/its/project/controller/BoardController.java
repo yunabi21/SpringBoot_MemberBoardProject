@@ -1,8 +1,12 @@
 package com.its.project.controller;
 
+import com.its.project.common.PagingConst;
 import com.its.project.dto.BoardDTO;
 import com.its.project.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +20,18 @@ import java.util.List;
 public class BoardController {
   public final BoardService boardService;
 
-  @GetMapping("/list")
-  public String list(Model model) {
+  @GetMapping
+  public String list(@PageableDefault(page = 1) Pageable pageable, Model model) {
     System.out.println("BoardController.list");
 
-    List<BoardDTO> boardDTOList = boardService.findAll();
-    model.addAttribute("boardList", boardDTOList);
+    Page<BoardDTO> boardList = boardService.paging(pageable);
+    model.addAttribute("boardList", boardList);
+
+    int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
+    int endPage = ((startPage + PagingConst.BLOCK_LIMIT - 1) < boardList.getTotalPages()) ? startPage + PagingConst.BLOCK_LIMIT - 1 : boardList.getTotalPages();
+
+    model.addAttribute("startPage", startPage);
+    model.addAttribute("endPage", endPage);
 
     return "boardPages/list";
   }
@@ -39,7 +49,7 @@ public class BoardController {
 
     boardService.save(boardDTO);
 
-    return "redirect:/board/list";
+    return "redirect:/board/";
   }
 
   @GetMapping("/{id}")
@@ -68,7 +78,7 @@ public class BoardController {
 
     boardService.update(boardDTO);
 
-    return "redirect:/board/list";
+    return "redirect:/board/";
   }
 
   @GetMapping("/delete/{id}")
@@ -77,6 +87,6 @@ public class BoardController {
 
     boardService.delete(id);
 
-    return "redirect:/board/list";
+    return "redirect:/board/";
   }
 }
