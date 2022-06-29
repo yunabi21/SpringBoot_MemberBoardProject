@@ -89,4 +89,11 @@ public class BoardController {
 
     return "redirect:/board/";
   }
+
+  @GetMapping("/search")
+  public @ResponseBody List<BoardDTO> search(@RequestParam("q") String q) {
+    System.out.println("BoardController.search");
+
+    return boardService.search(q);
+  }
 }

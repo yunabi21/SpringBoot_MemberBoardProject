@@ -61,8 +61,11 @@ public class BoardService {
     }
   }
 
+  @Transactional
   public BoardDTO findById(Long id) {
     System.out.println("BoardService.findById");
+
+    boardRepository.updateBoardHits(id);
 
     Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
     if (optionalBoardEntity.isPresent()) {
@@ -140,5 +143,18 @@ public class BoardService {
                     board.getCreatedTime(),
                     board.getBoardFileName()
             ));
+  }
+
+  public List<BoardDTO> search(String q) {
+    System.out.println("BoardService.search");
+
+    List<BoardEntity> boardEntityList = boardRepository.findByBoardTitleContaining(q);
+    List<BoardDTO> boardDTOList = new ArrayList<>();
+
+    for (BoardEntity boardEntity : boardEntityList) {
+      boardDTOList.add(BoardDTO.toDTO(boardEntity));
+    }
+
+    return boardDTOList;
   }
 }

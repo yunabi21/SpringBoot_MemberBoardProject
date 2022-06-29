@@ -5,6 +5,7 @@
   <title>list</title>
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/jquery.js}"></script>
 </head>
 <body>
   <h2>list.html</h2>
@@ -75,11 +76,61 @@
     </ul>
   </div>
 
-  <button type="button" onclick="postBoard()">글 작성</button>
+  <button type="button" class="btn btn-dark" onclick="postBoard()">글 작성</button><br/>
+  <input type="text" name="q" id="query">
+  <button type="button" onclick="searchBoard()">검색</button><br/>
+
+  <div class="output-div">
+
+  </div>
 </body>
 <script th:inline="javascript">
   const postBoard = () => {
     location.href = '/board/save-form';
+  }
+  const searchBoard = () => {
+    const q = document.getElementById("query").value;
+
+    $.ajax({
+      type: 'get',
+      url: '/board/search',
+      data: {"q" : q},
+      dataType: 'json',
+      success: function (result) {
+        let output = "<table class=\"table table-hover\">\n" +
+            "    <thead>\n" +
+            "    <tr>\n" +
+            "      <th scope=\"col\">id</th>\n" +
+            "      <th scope=\"col\">boardTitle</th>\n" +
+            "      <th scope=\"col\">boardContents</th>\n" +
+            "      <th scope=\"col\">boardWriter</th>\n" +
+            "      <th scope=\"col\">boardCreatedTime</th>\n" +
+            "      <th scope=\"col\">boardHits</th>\n" +
+            "      <th scope=\"col\">boardFile</th>\n" +
+            "    </tr>\n" +
+            "    </thead>\n" +
+            "    <tbody>\n";
+
+        for (let i = 0; i < result.length; i++) {
+          output +=    "      <tr>\n" +
+              "        <td>" + result[i].id + "</td>\n" +
+              "        <td><a href='/board/" + result[i].id + "'>" + result[i].boardTitle + "</a></td>\n" +
+              "        <td>" + result[i].boardContents + "</td>\n" +
+              "        <td>" + result[i].boardWriter + "</td>\n" +
+              "        <td>" + result[i].boardCreatedDate + "</td>\n" +
+              "        <td>" + result[i].boardHits + "</td>\n" +
+              "        <td>" + "<img src='/upload/" + result[i].boardFileName + "' width=\"50px\" height=\"50px\" alt=\"\">" + "</td>\n" +
+              "      </tr>\n";
+        }
+        output +=    "    </tbody>\n" +
+              "  </table>";
+
+        document.querySelector(".output-div").innerHTML = output;
+      },
+      err: function () {
+        alert('에러');
+      }
+    });
   }
 </script>
 </html>
