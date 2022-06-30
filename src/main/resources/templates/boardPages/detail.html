@@ -18,9 +18,11 @@
   작성자 : <p th:text="${board.getBoardWriter()}"></p><br/>
   작성일자 : <p th:text="*{#temporals.format(board.getBoardCreatedDate(), 'yyyy-MM-dd HH:mm')}"></p><br/>
   조회수 : <p th:text="${board.getBoardHits()}"></p><br/>
-  이미지 : <img th:src="@{|/upload/${board.getBoardFileName}|}" width="50px" height="50px" alt=""><br/>
-  <button type="button" onclick="req(1)">수정</button>
-  <button type="button" onclick="req(2)">삭제</button><br/>
+  이미지 : <img th:src="@{|/upload/${board.getBoardFileName()}|}" width="50px" height="50px" alt=""><br/>
+  <div th:if="${session.loginId.equals(board.getBoardWriter())}">
+    <button type="button" onclick="req(1)">수정</button>
+    <button type="button" onclick="req(2)">삭제</button><br/>
+  </div>
   <span class="input-area">
 
   </span>
