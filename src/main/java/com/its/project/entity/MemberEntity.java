@@ -45,6 +45,7 @@ public class MemberEntity {
   @PreRemove
   private void preRemove() {
     boardEntityList.forEach(board -> board.setMemberEntity(null));
+    commentEntityList.forEach(comment -> comment.setBoardEntity(null));
   }
 
   public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
